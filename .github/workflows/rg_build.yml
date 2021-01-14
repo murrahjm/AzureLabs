@@ -1,12 +1,14 @@
 name: Terraform plan and test to Azure
-          
+
 on:
-  push:
+  pull_request:
     branches:
       - main
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
     - name: "Checkout"
       uses: actions/checkout@master
@@ -17,14 +19,14 @@ jobs:
         tf_actions_version: 0.12.13
         tf_actions_subcommand: "init"
     
-    - name: "Terraform Apply"
+    - name: "Terraform Plan"
       uses: hachicorp/terraform-github-actions@master
       with:
         tf_actions_version: 0.12.13
-        tf_actions_subcommand: "apply"
+        tf_actions_subcommand: "plan"
         args:
         - '-var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"'
         - '-var="client_id=${{ secrets.AZURE_CLIENT_ID }}"'
         - '-var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"'
         - '-var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"'
-
+          
