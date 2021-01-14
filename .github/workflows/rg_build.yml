@@ -8,25 +8,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: "Checkout"
       uses: actions/checkout@master
 
+    - name: "Load Terraform Action Module"
+      uses: hashicorp/setup-terraform@v1
+
+    - name: "Terraform format"
+      id: fmt
+      run: terraform fmt -check
+
     - name: "Terraform Init"
-      uses: hashicorp/setup-terraform@v1
-      with:
-        tf_actions_version: 0.12.13
-        tf_actions_subcommand: "init"
-    
+      id: init
+      run: terraform init
+
     - name: "Terraform Plan"
-      uses: hashicorp/setup-terraform@v1
-      with:
-        tf_actions_version: 0.12.13
-        tf_actions_subcommand: "plan"
-        args:
-        - '-var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"'
-        - '-var="client_id=${{ secrets.AZURE_CLIENT_ID }}"'
-        - '-var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"'
-        - '-var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"'
-          
+      id: plan
+      run: terraform plan -var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var="client_id=${{ secrets.AZURE_CLIENT_ID }}" -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"
+  
+
