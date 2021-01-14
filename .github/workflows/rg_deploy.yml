@@ -15,20 +15,20 @@ jobs:
 
     - name: "Terraform Init"
       uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.12.13
-          tf_actions_subcommand: "init"
+      with:
+        tf_actions_version: 0.12.13
+        tf_actions_subcommand: "init"
     
     - name: "Terraform Plan"
       uses: hachicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.12.13
-          tf_actions_subcommand: "plan"
-          args:
-          - '-var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"'
-          - '-var="client_id=${{ secrets.AZURE_CLIENT_ID }}"'
-          - '-var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"'
-          - '-var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"'
+      with:
+        tf_actions_version: 0.12.13
+        tf_actions_subcommand: "plan"
+        args:
+        - '-var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"'
+        - '-var="client_id=${{ secrets.AZURE_CLIENT_ID }}"'
+        - '-var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"'
+        - '-var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"'
           
 on:
   push:
@@ -43,18 +43,18 @@ jobs:
 
     - name: "Terraform Init"
       uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.12.13
-          tf_actions_subcommand: "init"
+      with:
+        tf_actions_version: 0.12.13
+        tf_actions_subcommand: "init"
     
     - name: "Terraform Apply"
       uses: hachicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.12.13
-          tf_actions_subcommand: "apply"
-          args:
-          - '-var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"'
-          - '-var="client_id=${{ secrets.AZURE_CLIENT_ID }}"'
-          - '-var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"'
-          - '-var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"'
+      with:
+        tf_actions_version: 0.12.13
+        tf_actions_subcommand: "apply"
+        args:
+        - '-var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"'
+        - '-var="client_id=${{ secrets.AZURE_CLIENT_ID }}"'
+        - '-var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"'
+        - '-var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"'
 
