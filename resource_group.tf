@@ -16,7 +16,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "myTFResourceGroup"
+  name     = "FirstResourceGroup"
   location = "eastus"
   tags = {
     "Environment" = "Lab"
