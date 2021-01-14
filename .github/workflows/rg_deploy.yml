@@ -1,4 +1,4 @@
-name: Terraform plan and test to Azure
+name: Terraform deploy to azure
           
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
 
     - name: "Terraform format"
       id: fmt
-      run: terraform fmt -check
+      run: terraform fmt -check -diff
 
     - name: "Terraform Init"
       id: init
