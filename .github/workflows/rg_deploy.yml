@@ -1,0 +1,60 @@
+name: Terraform deploy to Azure
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@master
+
+    - name: "Terraform Init"
+      uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "init"
+    
+    - name: "Terraform Plan"
+      uses: hachicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "plan"
+          args:
+          - '-var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"'
+          - '-var="client_id=${{ secrets.AZURE_CLIENT_ID }}"'
+          - '-var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"'
+          - '-var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"'
+          
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@master
+
+    - name: "Terraform Init"
+      uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "init"
+    
+    - name: "Terraform Apply"
+      uses: hachicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "apply"
+          args:
+          - '-var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"'
+          - '-var="client_id=${{ secrets.AZURE_CLIENT_ID }}"'
+          - '-var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"'
+          - '-var="tenant_id=${{ secrets.AZURE_TENANT_ID }}"'
+
