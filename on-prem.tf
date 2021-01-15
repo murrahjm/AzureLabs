@@ -35,14 +35,14 @@ resource "azurerm_subnet" "onprem-mgmt" {
 }
 
 resource "azurerm_public_ip" "onprem-pip" {
-    name                         = "${local.prefix-onprem}-pip"
-    location            = azurerm_resource_group.onprem-vnet-rg.location
-    resource_group_name = azurerm_resource_group.onprem-vnet-rg.name
-    allocation_method   = "Dynamic"
+  name                = "${local.prefix-onprem}-pip"
+  location            = azurerm_resource_group.onprem-vnet-rg.location
+  resource_group_name = azurerm_resource_group.onprem-vnet-rg.name
+  allocation_method   = "Dynamic"
 
-    tags = {
-        environment = local.prefix-onprem
-    }
+  tags = {
+    environment = local.prefix-onprem
+  }
 }
 
 resource "azurerm_network_interface" "onprem-nic" {
@@ -61,25 +61,25 @@ resource "azurerm_network_interface" "onprem-nic" {
 
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "onprem-nsg" {
-    name                = "${local.prefix-onprem}-nsg"
-    location            = azurerm_resource_group.onprem-vnet-rg.location
-    resource_group_name = azurerm_resource_group.onprem-vnet-rg.name
+  name                = "${local.prefix-onprem}-nsg"
+  location            = azurerm_resource_group.onprem-vnet-rg.location
+  resource_group_name = azurerm_resource_group.onprem-vnet-rg.name
 
-    security_rule {
-        name                       = "SSH"
-        priority                   = 1001
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "22"
-      source_address_prefix      = "*"
-        destination_address_prefix = "*"
-    }
+  security_rule {
+    name                       = "SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 
-    tags = {
-        environment = "onprem"
-    }
+  tags = {
+    environment = "onprem"
+  }
 }
 
 resource "azurerm_subnet_network_security_group_association" "mgmt-nsg-association" {

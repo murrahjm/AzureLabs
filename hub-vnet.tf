@@ -141,11 +141,11 @@ resource "azurerm_virtual_network_gateway_connection" "hub-onprem-conn" {
 }
 
 resource "azurerm_virtual_network_gateway_connection" "onprem-hub-conn" {
-  name                = "onprem-hub-conn"
-  location            = azurerm_resource_group.onprem-vnet-rg.location
-  resource_group_name = azurerm_resource_group.onprem-vnet-rg.name
+  name                            = "onprem-hub-conn"
+  location                        = azurerm_resource_group.onprem-vnet-rg.location
+  resource_group_name             = azurerm_resource_group.onprem-vnet-rg.name
   type                            = "Vnet2Vnet"
-  routing_weight = 1
+  routing_weight                  = 1
   virtual_network_gateway_id      = azurerm_virtual_network_gateway.onprem-vpn-gateway.id
   peer_virtual_network_gateway_id = azurerm_virtual_network_gateway.hub-vnet-gateway.id
 
