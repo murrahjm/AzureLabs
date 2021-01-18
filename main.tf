@@ -24,7 +24,7 @@ resource "azurerm_resource_group" "rg" {
   location = local.location
 }
 
-module "network-security-group" {
+module "network-security-group" "nsg1" {
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -39,7 +39,7 @@ module "network-security-group" {
   depends_on = [azure_resource_group.rg]
 }
 
-module "network-security-group" {
+module "network-security-group" "nsg2" {
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -58,7 +58,7 @@ module "network-security-group" {
   depends_on = [azure_resource_group.rg]
 }
 
-module "network-security-group" {
+module "network-security-group" "nsg3" {
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
