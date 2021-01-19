@@ -24,7 +24,7 @@ resource "azurerm_resource_group" "rg" {
   location = local.location
 }
 
-module "network-security-group" "nsg1" {
+module "network-security-group1" {
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -39,7 +39,7 @@ module "network-security-group" "nsg1" {
   depends_on = [azure_resource_group.rg]
 }
 
-module "network-security-group" "nsg2" {
+module "network-security-group2" {
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -58,7 +58,7 @@ module "network-security-group" "nsg2" {
   depends_on = [azure_resource_group.rg]
 }
 
-module "network-security-group" "nsg3" {
+module "network-security-group3" {
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -85,4 +85,10 @@ module "network" {
   subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   subnet_names        = ["central", "webservers", "sqlservers"]
   depends_on          = [azurerm_resource_group.rg]
+}
+
+module "vnet" {
+  source              = "Azure/vnet/azurerm"
+  resource_group_name = "azurerm_resource_group.rg.name"
+
 }
