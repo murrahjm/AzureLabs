@@ -36,7 +36,7 @@ module "network-security-group1" {
       priority = "500"
     }
   ]
-  depends_on = [azure_resource_group.rg]
+  depends_on = [azurerm_resource_group.rg]
 }
 
 module "network-security-group2" {
@@ -55,7 +55,7 @@ module "network-security-group2" {
       priority = "500"
     }
   ]
-  depends_on = [azure_resource_group.rg]
+  depends_on = [azurerm_resource_group.rg]
 }
 
 module "network-security-group3" {
@@ -74,7 +74,7 @@ module "network-security-group3" {
       priority = "1433"
     }
   ]
-  depends_on = [azure_resource_group.rg]
+  depends_on = [azurerm_resource_group.rg]
 }
 
 
