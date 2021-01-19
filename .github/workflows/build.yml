@@ -12,9 +12,6 @@ jobs:
     - name: "Checkout"
       uses: actions/checkout@master
 
-    - name: "Load Azure CLI Module"
-      uses: azure/CLI@v1
-
     - name: "Load Terraform Action Module"
       uses: hashicorp/setup-terraform@v1
 
