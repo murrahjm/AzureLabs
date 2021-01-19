@@ -165,7 +165,7 @@ resource "azurerm_linux_virtual_machine" "sqlserver" {
   size                = "Standard_D2"
   admin_username      = "adminuser"
   network_interface_ids = [
-    azurerm_network_interface.webserver.id
+    azurerm_network_interface.sqlserver.id
   ]
   admin_ssh_key {
     username   = "adminuser"
