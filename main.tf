@@ -119,7 +119,7 @@ module "webserver-virtual-machine" {
   # module.webserver-virtual-machine.network_interface_private_ip
   # module.webserver-virtual-machine.public_ip_id
   # module.webserver-virtual-machine.public_ip_address
-  source         = "Azure/vm/azurerm"
+  source         = "github.com/Azure/terraform-azurerm-vm"
   location       = local.location
   vm_os_simple   = "UbuntuServer"
   public_ip_dns  = ["linsimplevmips"]
@@ -133,7 +133,7 @@ module "sqlserver-virtual-machine" {
   # module.sqlserver-virtual-machine.network_interface_private_ip
   # module.sqlserver-virtual-machine.public_ip_id
   # module.sqlserver-virtual-machine.public_ip_address
-  source         = "Azure/vm/azurerm"
+  source         = "github.com/Azure/terraform-azurerm-vm"
   location       = local.location
   vm_os_simple   = "UbuntuServer"
   public_ip_dns  = ["linsimplevmips"]
