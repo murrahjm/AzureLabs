@@ -52,7 +52,7 @@ module "network-security-group2" {
     },
     {
       name     = "HTTP"
-      priority = "500"
+      priority = "501"
     }
   ]
   depends_on = [azurerm_resource_group.rg]
@@ -71,7 +71,7 @@ module "network-security-group3" {
     },
     {
       name     = "MSSQL"
-      priority = "500"
+      priority = "501"
     }
   ]
   depends_on = [azurerm_resource_group.rg]
