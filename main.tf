@@ -113,7 +113,7 @@ module "network" {
 }
 
 
-output "webserver_public_ip" {
-  value       = module.webserver-virtual-machine.public_ip_address
-  description = "public IP of web server"
-}
+# output "webserver_public_ip" {
+#   value       = module.webserver-virtual-machine.public_ip_address
+#   description = "public IP of web server"
+# }
