@@ -7,6 +7,15 @@ terraform {
   }
 }
 
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "tfstate"
+    storage_account_name = "tfstate145343"
+    container_name       = "tfstate"
+    key                  = "prod.terraform.tfstate"
+  }
+}
+
 locals {
   location = "EastUS"
 }
