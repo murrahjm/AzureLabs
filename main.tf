@@ -112,33 +112,6 @@ module "network" {
   depends_on          = [azurerm_resource_group.rg]
 }
 
-module "webserver-virtual-machine" {
-  # outputs:
-  # module.webserver-virtual-machine.vm_ids
-  # module.webserver-virtual-machine.network_interface_ids
-  # module.webserver-virtual-machine.network_interface_private_ip
-  # module.webserver-virtual-machine.public_ip_id
-  # module.webserver-virtual-machine.public_ip_address
-  source         = "github.com/Azure/terraform-azurerm-vm"
-  location       = local.location
-  vm_os_simple   = "UbuntuServer"
-  public_ip_dns  = ["linsimplevmips"]
-  vnet_subnet_id = module.network.vnet_subnets[1]
-}
-
-module "sqlserver-virtual-machine" {
-  # outputs:
-  # module.sqlserver-virtual-machine.vm_ids
-  # module.sqlserver-virtual-machine.network_interface_ids
-  # module.sqlserver-virtual-machine.network_interface_private_ip
-  # module.sqlserver-virtual-machine.public_ip_id
-  # module.sqlserver-virtual-machine.public_ip_address
-  source         = "github.com/Azure/terraform-azurerm-vm"
-  location       = local.location
-  vm_os_simple   = "UbuntuServer"
-  public_ip_dns  = ["linsimplevmips"]
-  vnet_subnet_id = module.network.vnet_subnets[2]
-}
 
 output "webserver_public_ip" {
   value       = module.webserver-virtual-machine.public_ip_address
