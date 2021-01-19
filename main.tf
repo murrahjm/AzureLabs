@@ -70,9 +70,8 @@ module "network-security-group3" {
       priority = "500"
     },
     {
-      name              = "SQL"
-      source_port_range = "1433"
-      priority          = "500"
+      name     = "MSSQL"
+      priority = "500"
     }
   ]
   depends_on = [azurerm_resource_group.rg]
