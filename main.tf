@@ -112,6 +112,67 @@ module "network" {
   depends_on          = [azurerm_resource_group.rg]
 }
 
+resource "azurerm_network_interface" "webserver" {
+  name                = "webserver-nic"
+  location            = local.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
+resource "azurerm_network_interface" "sqlserver" {
+  name                = "sqlserver-nic"
+  location            = local.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+resource "azurerm_linux_virtual_machine" "webserver" {
+  name                = "webserver-vm"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = local.location
+  size                = "Standard_F2"
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.webserver.id
+  ]
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("./id_rsa.pub")
+  }
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+}
+
+resource "azurerm_linux_virtual_machine" "sqlserver" {
+  name                = "sqlserver-vm"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = local.location
+  size                = "Standard_D2"
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.webserver.id
+  ]
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("./id_rsa.pub")
+  }
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+}
+
 
 # output "webserver_public_ip" {
 #   value       = module.webserver-virtual-machine.public_ip_address
