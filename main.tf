@@ -34,6 +34,9 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "network-security-group1" {
+  # outputs:
+  # module.network-security-group1.network_security_group_id
+  # module.network-security-group1.network_security_group_name
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -49,6 +52,9 @@ module "network-security-group1" {
 }
 
 module "network-security-group2" {
+  # outputs:
+  # module.network-security-group2.network_security_group_id
+  # module.network-security-group2.network_security_group_name
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -68,6 +74,9 @@ module "network-security-group2" {
 }
 
 module "network-security-group3" {
+  # outputs:
+  # module.network-security-group3.network_security_group_id
+  # module.network-security-group3.network_security_group_name
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -87,7 +96,14 @@ module "network-security-group3" {
 }
 
 
+
 module "network" {
+  # outputs:
+  # module.network.vnet_id
+  # module.network.vnet_name
+  # module.network.vnet_location
+  # module.network.vnet_address_space
+  # module.network.vnet_subnets
   source              = "Azure/network/azurerm"
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = "10.0.0.0/16"
@@ -96,3 +112,35 @@ module "network" {
   depends_on          = [azurerm_resource_group.rg]
 }
 
+module "webserver-virtual-machine" {
+  # outputs:
+  # module.webserver-virtual-machine.vm_ids
+  # module.webserver-virtual-machine.network_interface_ids
+  # module.webserver-virtual-machine.network_interface_private_ip
+  # module.webserver-virtual-machine.public_ip_id
+  # module.webserver-virtual-machine.public_ip_address
+  source         = "Azure/vm/azurerm"
+  location       = local.location
+  vm_os_simple   = "UbuntuServer"
+  public_ip_dns  = ["linsimplevmips"]
+  vnet_subnet_id = module.network.vnet_subnets[1]
+}
+
+module "sqlserver-virtual-machine" {
+  # outputs:
+  # module.sqlserver-virtual-machine.vm_ids
+  # module.sqlserver-virtual-machine.network_interface_ids
+  # module.sqlserver-virtual-machine.network_interface_private_ip
+  # module.sqlserver-virtual-machine.public_ip_id
+  # module.sqlserver-virtual-machine.public_ip_address
+  source         = "Azure/vm/azurerm"
+  location       = local.location
+  vm_os_simple   = "UbuntuServer"
+  public_ip_dns  = ["linsimplevmips"]
+  vnet_subnet_id = module.network.vnet_subnets[2]
+}
+
+output "webserver_public_ip" {
+  value       = module.webserver-virtual-machine.public_ip_address
+  description = "public IP of web server"
+}
