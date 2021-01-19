@@ -34,6 +34,9 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "network-security-group1" {
+  # outputs:
+  # module.network-security-group1.network_security_group_id
+  # module.network-security-group1.network_security_group_name
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -49,6 +52,9 @@ module "network-security-group1" {
 }
 
 module "network-security-group2" {
+  # outputs:
+  # module.network-security-group2.network_security_group_id
+  # module.network-security-group2.network_security_group_name
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -68,6 +74,9 @@ module "network-security-group2" {
 }
 
 module "network-security-group3" {
+  # outputs:
+  # module.network-security-group3.network_security_group_id
+  # module.network-security-group3.network_security_group_name
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = local.location
@@ -87,7 +96,14 @@ module "network-security-group3" {
 }
 
 
+
 module "network" {
+  # outputs:
+  # module.network.vnet_id
+  # module.network.vnet_name
+  # module.network.vnet_location
+  # module.network.vnet_address_space
+  # module.network.vnet_subnets
   source              = "Azure/network/azurerm"
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = "10.0.0.0/16"
@@ -96,3 +112,79 @@ module "network" {
   depends_on          = [azurerm_resource_group.rg]
 }
 
+resource "azurerm_network_interface" "webserver" {
+  name                = "webserver-nic"
+  location            = local.location
+  resource_group_name = azurerm_resource_group.rg.name
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = module.network.vnet_subnets[1]
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+resource "azurerm_network_interface" "sqlserver" {
+  name                = "sqlserver-nic"
+  location            = local.location
+  resource_group_name = azurerm_resource_group.rg.name
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = module.network.vnet_subnets[2]
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+resource "azurerm_linux_virtual_machine" "webserver" {
+  name                = "webserver-vm"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = local.location
+  size                = "Standard_F2"
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.webserver.id
+  ]
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("./id_rsa.pub")
+  }
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+}
+
+resource "azurerm_linux_virtual_machine" "sqlserver" {
+  name                = "sqlserver-vm"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = local.location
+  size                = "Standard_D2"
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.webserver.id
+  ]
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("./id_rsa.pub")
+  }
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+}
+
+
+# output "webserver_public_ip" {
+#   value       = module.webserver-virtual-machine.public_ip_address
+#   description = "public IP of web server"
+# }
