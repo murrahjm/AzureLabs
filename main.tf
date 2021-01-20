@@ -199,7 +199,11 @@ resource "azurerm_public_ip" "sqlserver" {
   allocation_method   = "Static"
 }
 
-# output "webserver_public_ip" {
-#   value       = module.webserver-virtual-machine.public_ip_address
-#   description = "public IP of web server"
-# }
+output "webserver_public_ip" {
+  value       = module.webserver-virtual-machine.public_ip_address
+  description = "public IP of web server"
+}
+output "sqlserver_public_ip" {
+  value       = module.sqlserver-virtual-machine.public_ip_address
+  description = "public IP of sql server"
+}
