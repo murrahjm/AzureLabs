@@ -37,11 +37,11 @@ module "network-security-group1" {
   # outputs:
   # module.network-security-group1.network_security_group_id
   # module.network-security-group1.network_security_group_name
-  source                = "Azure/network-security-group/azurerm"
-  resource_group_name   = azurerm_resource_group.rg.name
-  location              = local.location
-  security_group_name   = "nsg1"
-  source_address_prefix = ["10.0.1.0/24"]
+  source                     = "Azure/network-security-group/azurerm"
+  resource_group_name        = azurerm_resource_group.rg.name
+  location                   = local.location
+  security_group_name        = "nsg1"
+  destination_address_prefix = ["10.0.1.0/24"]
   predefined_rules = [
     {
       name     = "SSH"
@@ -55,11 +55,11 @@ module "network-security-group2" {
   # outputs:
   # module.network-security-group2.network_security_group_id
   # module.network-security-group2.network_security_group_name
-  source                = "Azure/network-security-group/azurerm"
-  resource_group_name   = azurerm_resource_group.rg.name
-  location              = local.location
-  security_group_name   = "nsg2"
-  source_address_prefix = ["10.0.2.0/24"]
+  source                     = "Azure/network-security-group/azurerm"
+  resource_group_name        = azurerm_resource_group.rg.name
+  location                   = local.location
+  security_group_name        = "nsg2"
+  destination_address_prefix = ["10.0.2.0/24"]
   predefined_rules = [
     {
       name     = "SSH"
@@ -77,11 +77,11 @@ module "network-security-group3" {
   # outputs:
   # module.network-security-group3.network_security_group_id
   # module.network-security-group3.network_security_group_name
-  source                = "Azure/network-security-group/azurerm"
-  resource_group_name   = azurerm_resource_group.rg.name
-  location              = local.location
-  security_group_name   = "nsg3"
-  source_address_prefix = ["10.0.3.0/24"]
+  source                     = "Azure/network-security-group/azurerm"
+  resource_group_name        = azurerm_resource_group.rg.name
+  location                   = local.location
+  security_group_name        = "nsg3"
+  destination_address_prefix = ["10.0.3.0/24"]
   predefined_rules = [
     {
       name     = "SSH"
