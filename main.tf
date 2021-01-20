@@ -189,14 +189,14 @@ resource "azurerm_public_ip" "webserver" {
   name                = "webserver_pip"
   resource_group_name = azurerm_resource_group.rg.name
   location            = local.location
-  allocation_method   = "static"
+  allocation_method   = "Static"
 }
 
 resource "azurerm_public_ip" "sqlserver" {
   name                = "sqlserver_pip"
   resource_group_name = azurerm_resource_group.rg.name
   location            = local.location
-  allocation_method   = "static"
+  allocation_method   = "Static"
 }
 
 # output "webserver_public_ip" {
