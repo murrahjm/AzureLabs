@@ -120,6 +120,7 @@ resource "azurerm_network_interface" "webserver" {
     name                          = "internal"
     subnet_id                     = module.network.vnet_subnets[1]
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.webserver.id
   }
 }
 resource "azurerm_network_interface" "sqlserver" {
@@ -130,6 +131,7 @@ resource "azurerm_network_interface" "sqlserver" {
     name                          = "internal"
     subnet_id                     = module.network.vnet_subnets[2]
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.sqlserver.id
   }
 }
 
@@ -183,6 +185,19 @@ resource "azurerm_linux_virtual_machine" "sqlserver" {
   }
 }
 
+resource "azurerm_public_ip" "webserver" {
+  name                = "webserver_pip"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = local.location
+  allocation_method   = "Static"
+}
+
+resource "azurerm_public_ip" "sqlserver" {
+  name                = "sqlserver_pip"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = local.location
+  allocation_method   = "Static"
+}
 
 # output "webserver_public_ip" {
 #   value       = module.webserver-virtual-machine.public_ip_address
