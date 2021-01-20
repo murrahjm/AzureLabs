@@ -204,6 +204,6 @@ output "webserver_public_ip" {
   description = "public IP of web server"
 }
 output "sqlserver_public_ip" {
-  value       = azurerm_piblic_ip.sqlserver.ip_address
+  value       = azurerm_public_ip.sqlserver.ip_address
   description = "public IP of sql server"
 }
