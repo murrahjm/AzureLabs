@@ -163,6 +163,9 @@ resource "azurerm_linux_virtual_machine" "webserver" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+  provisioner "local-exec" {
+    command = "sleep 120; ANSIBLE_HOST_KEY_CHECKING=false ansible-playbook -u adminuser --private-key ~/.ssh/id_rsa -i '${azurerm_public_ip.webserver.ip_address},' ansible/playbook.yml --tags web"
+  }
 }
 
 resource "azurerm_linux_virtual_machine" "sqlserver" {
@@ -188,6 +191,9 @@ resource "azurerm_linux_virtual_machine" "sqlserver" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+  provisioner "local-exec" {
+    command = "sleep 120; ANSIBLE_HOST_KEY_CHECKING=false ansible-playbook -u adminuser --private-key ~/.ssh/id_rsa -i '${azurerm_public_ip.sqlserver.ip_address},' ansible/playbook.yml --tags sql"
+  }
 }
 
 resource "azurerm_public_ip" "webserver" {
@@ -212,3 +218,5 @@ output "sqlserver_public_ip" {
   value       = azurerm_public_ip.sqlserver.ip_address
   description = "public IP of sql server"
 }
+
+

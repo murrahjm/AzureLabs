@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: update repositories and upgrade packages
+      apt:
+        name: "*"
+        state: latest
+        update_cache: yes
+      tags:
+      - web
+      - sql
+    - name: install apache web server
+      apt:
+        name: apache2
+        state: latest
+      tags: web
+    - name: install mysql
+      apt:
+        name: mysql-server
+        state: latest
+      tags: sql
